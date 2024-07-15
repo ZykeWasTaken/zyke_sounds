@@ -1,0 +1,21 @@
+---@class SoundData
+---@field soundType string @default
+---@field soundName string
+---@field maxVolume number
+---@field looped boolean
+
+---@class SoundDataWithEntity
+---@field soundType string @entity
+---@field soundName string
+---@field maxVolume number
+---@field maxDistance number
+---@field entityNetId integer
+---@field looped boolean
+
+---@class SoundDataWithLocation
+---@field soundType string @location
+---@field soundName string
+---@field maxVolume number
+---@field maxDistance number
+---@field location vector3
+---@field looped boolean
