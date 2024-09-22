@@ -1,9 +1,11 @@
-RegisterNetEvent("zyke_sounds:PlaySound", function(soundData)
-    local plyPos = GetEntityCoords(PlayerPedId())
-
-    Cache.activeSounds[soundData.soundId] = soundData
+local function handleReceivedSound(soundData)
+    local plyPos = GetEntityCoords(cache.ped)
 
     local volume = GetSoundVolume(plyPos, soundData)
+
+    if volume <= 0.0 then return end
+
+    Cache.activeSounds[soundData.soundId] = soundData
 
     soundData.volume = volume
 
@@ -13,6 +15,10 @@ RegisterNetEvent("zyke_sounds:PlaySound", function(soundData)
     })
 
     UpdateSoundVolumeLoop()
+end
+
+RegisterNetEvent("zyke_sounds:PlaySound", function(soundData)
+    handleReceivedSound(soundData)
 end)
 
 RegisterNUICallback("Eventhandler", function(passed, cb)
@@ -32,4 +38,17 @@ RegisterNetEvent("zyke_sounds:StopSound", function(soundId)
         event = "StopSound",
         data = soundId
     })
+end)
+
+---@diagnostic disable-next-line: param-type-mismatch
+AddStateBagChangeHandler('playSound', nil, function(bagName, key, soundData)
+    local entityExists, entity = pcall(lib.waitFor, function()
+        local entity = GetEntityFromStateBagName(bagName)
+
+        if entity > 0 then return entity end
+    end, '', 10000)
+
+    if not entityExists then return end
+
+    handleReceivedSound(soundData)
 end)

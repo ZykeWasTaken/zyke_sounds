@@ -12,6 +12,7 @@ files {
 }
 
 shared_scripts {
+    '@ox_lib/init.lua',
     "shared/config.lua"
 }
 
@@ -26,4 +27,8 @@ server_scripts {
     "server/main.lua",
     "server/functions.lua",
     "server/eventhandler.lua"
+}
+
+dependencies {
+    'ox_lib'
 }

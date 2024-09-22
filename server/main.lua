@@ -28,7 +28,7 @@ function PlaySoundOnEntity(entity, id, soundName, maxVolume, maxDistance, looped
         playCount = playCount or 1
     }
 
-    TriggerClientEvent("zyke_sounds:PlaySound", -1, soundData)
+    Entity(entity).state.playSound = soundData
 
     return soundData.soundId
 end
