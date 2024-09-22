@@ -39,6 +39,8 @@ function GetSoundVolume(plyPos, soundData)
 
         return soundData.maxVolume * (1.0 - (dst / maxDst))
     elseif (soundData.soundType == "entity") then
+        if (not NetworkDoesNetworkIdExist(soundData.entityNetId)) then return 0.0 end
+
         local entity = NetworkGetEntityFromNetworkId(soundData.entityNetId)
         local entityPos = GetEntityCoords(entity)
 
