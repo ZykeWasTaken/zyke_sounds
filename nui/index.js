@@ -43,8 +43,10 @@ Funcs.StopSound = (soundId) => {
         delete audios[soundId];
     } else {
         audios[soundId].addEventListener("canplay", () => {
-            audios[soundId].pause();
-            delete audios[soundId];
+            if (audios[soundId]) {
+                audios[soundId].pause();
+                delete audios[soundId];
+            }
         });
     }
 };
