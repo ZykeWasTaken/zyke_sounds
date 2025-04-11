@@ -1,3 +1,5 @@
+# [> Download](https://github.com/ZykeWasTaken/zyke_sounds/releases/latest)
+
 # Very Big Words So Important Disclaimer
 
 The following information below is not to discourage anyone downloading if they have been instructed to do so. It works as intended and will not cause issues. The information below is general knowledge for anyone downloading without needing it as a dependency for one of your installed resources.
