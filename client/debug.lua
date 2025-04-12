@@ -10,7 +10,7 @@ CreateThread(function()
 
                 -- Max distance
                 ---@diagnostic disable-next-line: param-type-mismatch
-                DrawMarker(28, soundData.pos.x, soundData.pos.y, soundData.pos.z, 0, 0, 0, 0, 0, 0, soundData.maxDistance + 1.0, soundData.maxDistance + 1.0, soundData.maxDistance + 1.0, 255, 255, 255, 100, false, false, 2, nil, nil, false, false)
+                DrawMarker(28, soundData.pos.x, soundData.pos.y, soundData.pos.z, 0, 0, 0, 0, 0, 0, soundData.maxDistance + 0.0, soundData.maxDistance + 0.0, soundData.maxDistance + 0.0, 255, 255, 255, 100, false, false, 2, nil, nil, false, false)
             end
         end
 
