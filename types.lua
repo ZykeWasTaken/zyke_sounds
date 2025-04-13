@@ -1,4 +1,5 @@
 ---@class SoundData
+---@field soundId string
 ---@field soundType string @default
 ---@field soundName string
 ---@field maxVolume number
