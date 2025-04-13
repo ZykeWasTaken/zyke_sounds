@@ -60,8 +60,9 @@ end
 exports("PlaySoundOnLocation", PlaySoundOnLocation)
 
 ---@param soundId string
-function StopSound(soundId)
-    TriggerClientEvent("zyke_sounds:StopSound", -1, soundId)
+---@param fade? number
+function StopSound(soundId, fade)
+    TriggerClientEvent("zyke_sounds:StopSound", -1, soundId, fade)
 end
 
 exports("StopSound", StopSound)

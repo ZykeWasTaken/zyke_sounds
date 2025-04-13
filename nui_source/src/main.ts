@@ -50,14 +50,49 @@ Funcs.PlaySound = (soundData: SoundData) => {
     }
 };
 
-Funcs.StopSound = (soundId: string) => {
+Funcs.StopSound = ({
+    soundId,
+    fade = 0, // Fade sound in ms, defaults to no fade
+}: {
+    soundId: string;
+    fade?: number;
+}) => {
     const audio = audios[soundId];
     if (!audio) return;
 
     const hasStarted = audio.played.length !== 0;
     if (hasStarted) {
-        audio.pause();
+        if (fade == 0) {
+            audio.pause();
+            delete audios[soundId];
+            return;
+        }
+
         delete audios[soundId];
+
+        const orgVolume = audio.volume;
+        const interval = 20;
+        const steps = Math.floor(fade / interval);
+        const stepSize = orgVolume / steps;
+
+        let currStep = 0;
+        let newVolume = orgVolume;
+        const fadeInterval = setInterval(() => {
+            if (currStep >= steps) {
+                clearInterval(fadeInterval);
+                audio.pause();
+                return;
+            }
+
+            currStep += 1;
+            newVolume -= stepSize;
+            if (newVolume < 0.0) {
+                newVolume = 0.0;
+                currStep = steps;
+            }
+
+            audio.volume = newVolume;
+        }, interval);
     } else {
         audio.addEventListener("canplay", () => {
             if (audios[soundId]) {

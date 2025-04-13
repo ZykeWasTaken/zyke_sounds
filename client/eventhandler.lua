@@ -25,11 +25,16 @@ RegisterNUICallback("Eventhandler", function(passed, cb)
     end
 end)
 
-RegisterNetEvent("zyke_sounds:StopSound", function(soundId)
+---@param soundId string
+---@param fade? number
+RegisterNetEvent("zyke_sounds:StopSound", function(soundId, fade)
     Cache.activeSounds[soundId] = nil
 
     SendNUIMessage({
         event = "StopSound",
-        data = soundId
+        data = {
+            soundId = soundId,
+            fade = fade
+        }
     })
 end)
