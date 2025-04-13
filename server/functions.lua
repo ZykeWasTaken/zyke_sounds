@@ -74,3 +74,37 @@ function StopSound(soundId, fade, forceFull)
 end
 
 exports("StopSound", StopSound)
+
+-- This is meant to be validated during script initialization for those that use our exports
+-- We don't want to perform file validation on every sound play to avoid delay
+---@param fileName string
+---@return boolean
+function DoesFileExist(fileName)
+    local filePath = GetResourcePath(GetCurrentResourceName()) .. "/nui/sounds/" .. fileName
+
+    if (
+        type(filePath) ~= "string"
+        or filePath == ""
+        or type(fileName) ~= "string"
+        or fileName == ""
+    ) then return false end
+
+    -- Specific path validation
+    if (
+        filePath:find("%.%.") -- check for directory traversal
+        or filePath:match("^.+%.[mp3|ogg|wav]+$") == nil -- check for valid file extensions
+    ) then return false end
+
+    -- If the file could be opened here, we're good to go
+    local file = io.open(filePath, "r")
+
+    if (file) then
+        file:close()
+        return true
+    else
+        return false
+    end
+end
+
+exports("DoesFileExist", DoesFileExist)
+exports("DoesSoundExist", DoesFileExist)
