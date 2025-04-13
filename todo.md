@@ -1,0 +1,1 @@
+-   Verify the new functionality with fading & forceFull works fine with "count"

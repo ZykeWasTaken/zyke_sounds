@@ -27,14 +27,16 @@ end)
 
 ---@param soundId string
 ---@param fade? number
-RegisterNetEvent("zyke_sounds:StopSound", function(soundId, fade)
+---@param forceFull? boolean
+RegisterNetEvent("zyke_sounds:StopSound", function(soundId, fade, forceFull)
     Cache.activeSounds[soundId] = nil
 
     SendNUIMessage({
         event = "StopSound",
         data = {
             soundId = soundId,
-            fade = fade
+            fade = fade,
+            forceFull = forceFull
         }
     })
 end)

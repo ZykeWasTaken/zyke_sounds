@@ -53,21 +53,34 @@ Funcs.PlaySound = (soundData: SoundData) => {
 Funcs.StopSound = ({
     soundId,
     fade = 0, // Fade sound in ms, defaults to no fade
+    forceFull = false, // Force audio to fully play, ignores fade & if audio has not yet started
 }: {
     soundId: string;
     fade?: number;
+    forceFull?: boolean;
 }) => {
     const audio = audios[soundId];
     if (!audio) return;
 
     const hasStarted = audio.played.length !== 0;
     if (hasStarted) {
+        // If forcing the full audio, simply set loop to false, delete the id and let it play out
+        if (forceFull) {
+            audio.loop = false;
+            delete audios[soundId];
+
+            return;
+        }
+
+        // If not fading the audio, stop it, delete the id and return
         if (fade == 0) {
             audio.pause();
             delete audios[soundId];
             return;
         }
 
+        // If fading the audio, make sure to delete it insantly to avoid duplicate ids if one is manually provided
+        // Then, slowly fade the audio out
         delete audios[soundId];
 
         const orgVolume = audio.volume;

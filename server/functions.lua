@@ -68,8 +68,9 @@ exports("PlaySoundOnLocation", PlaySoundOnLocation)
 
 ---@param soundId string
 ---@param fade? number
-function StopSound(soundId, fade)
-    TriggerClientEvent("zyke_sounds:StopSound", -1, soundId, fade)
+---@param forceFull? boolean @Force the audio to play out fully instead of cutting off, ignores fade
+function StopSound(soundId, fade, forceFull)
+    TriggerClientEvent("zyke_sounds:StopSound", -1, soundId, fade, forceFull)
 end
 
 exports("StopSound", StopSound)
