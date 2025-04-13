@@ -7,7 +7,7 @@ version "0.0.3"
 ui_page "nui/index.html"
 
 files {
-    "nui/*",
+    "nui/**/*",
     "nui/sounds/*"
 }
 
