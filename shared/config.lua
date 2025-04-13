@@ -1,5 +1,6 @@
 Config = Config or {}
 
 Config.Settings = {
-    debug = false
+    debug = false,
+    volumeUpdateInterval = 100,
 }

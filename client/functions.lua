@@ -1,4 +1,6 @@
 -- Trigger once a sound plays, will run once and keep running until sounds are done
+
+local volumeUpdateInterval = Config.Settings.volumeUpdateInterval
 local isUpdatingVolume = false
 function UpdateSoundVolumeLoop()
     if (isUpdatingVolume) then return end
@@ -16,7 +18,7 @@ function UpdateSoundVolumeLoop()
             UpdateSoundVolume(soundId)
         end
 
-        Wait(100)
+        Wait(volumeUpdateInterval)
     end
 
     isUpdatingVolume = false
