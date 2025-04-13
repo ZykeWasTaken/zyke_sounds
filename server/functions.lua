@@ -5,6 +5,12 @@ end
 
 local soundIdCounter = 0
 
+function GetDefaultSoundId()
+    soundIdCounter += 1
+
+    return "sound-" .. soundIdCounter
+end
+
 ---@param entity integer
 ---@param id string? @Only needed if you want to manually stop the sound
 ---@param soundName string
@@ -14,11 +20,12 @@ local soundIdCounter = 0
 ---@return string
 function PlaySoundOnEntity(entity, id, soundName, maxVolume, maxDistance, looped, playCount)
     local entityNetId = NetworkGetNetworkIdFromEntity(entity)
-    soundIdCounter += 1
+
+    id = id or GetDefaultSoundId()
 
     ---@type SoundDataWithEntity
     local soundData = {
-        soundId = id or ("sound-" .. soundIdCounter),
+        soundId = id,
         soundName = soundName,
         entityNetId = entityNetId,
         soundType = "entity",
@@ -39,11 +46,11 @@ exports("PlaySoundOnEntity", PlaySoundOnEntity)
 ---@param soundName string
 ---@return string
 function PlaySoundOnLocation(location, soundName)
-    soundIdCounter += 1
+    local id = GetDefaultSoundId()
 
     ---@type SoundDataWithLocation
     local soundData = {
-        soundId = "sound-" .. soundIdCounter,
+        soundId = id,
         soundName = soundName,
         location = location,
         soundType = "location",
