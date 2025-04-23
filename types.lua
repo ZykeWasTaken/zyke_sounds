@@ -11,7 +11,7 @@
 ---@field maxVolume number
 ---@field maxDistance number
 ---@field entityNetId integer
----@field looped boolean
+---@field looped boolean | number | {[1]: number, [2]: number} @Basic looping, loop with time between, loop with random time between
 
 ---@class SoundDataWithLocation
 ---@field soundType string @location

@@ -4,7 +4,7 @@ interface SoundData {
     soundId: string;
     soundName: string;
     volume: number;
-    looped?: boolean;
+    looped?: boolean | number | [number, number];
     playCount?: number;
 }
 
@@ -22,11 +22,17 @@ window.addEventListener("message", (e: MessageEvent) => {
     if (Funcs[event]) Funcs[event](data);
 });
 
+const unregisterAudioEvents = (audio: HTMLAudioElement) => {
+    audio.onended = null;
+    audio.oncanplay = null;
+    audio.onplay = null;
+};
+
 Funcs.PlaySound = (soundData: SoundData) => {
     const audio = new Audio(`sounds/${soundData.soundName}`);
 
     audio.volume = soundData.volume;
-    audio.loop = soundData.looped ?? false;
+    audio.loop = soundData.looped === true ? true : false;
 
     audio.play().catch((err) => {
         console.error("Failed to play sound:", err);
@@ -45,7 +51,29 @@ Funcs.PlaySound = (soundData: SoundData) => {
                 soundId: soundData.soundId,
             });
 
+            unregisterAudioEvents(audios[soundData.soundId]);
             delete audios[soundData.soundId];
+        };
+    } else if (
+        typeof soundData.looped === "number" ||
+        Array.isArray(soundData.looped)
+    ) {
+        // Delay the looping of the sound
+        const looped = soundData.looped as number | [number, number];
+
+        audio.onended = () => {
+            if (!audios[soundData.soundId]) return;
+
+            const waitTime =
+                typeof looped === "number"
+                    ? looped
+                    : Math.random() * (looped[1] - looped[0]) + looped[0];
+
+            setTimeout(() => {
+                if (!audios[soundData.soundId]) return;
+
+                Funcs.PlaySound(soundData);
+            }, waitTime);
         };
     }
 };
@@ -67,6 +95,7 @@ Funcs.StopSound = ({
         // If forcing the full audio, simply set loop to false, delete the id and let it play out
         if (forceFull) {
             audio.loop = false;
+            unregisterAudioEvents(audios[soundId]);
             delete audios[soundId];
 
             return;
@@ -75,12 +104,14 @@ Funcs.StopSound = ({
         // If not fading the audio, stop it, delete the id and return
         if (fade == 0) {
             audio.pause();
+            unregisterAudioEvents(audios[soundId]);
             delete audios[soundId];
             return;
         }
 
         // If fading the audio, make sure to delete it insantly to avoid duplicate ids if one is manually provided
         // Then, slowly fade the audio out
+        unregisterAudioEvents(audios[soundId]);
         delete audios[soundId];
 
         const orgVolume = audio.volume;
@@ -110,6 +141,7 @@ Funcs.StopSound = ({
         audio.addEventListener("canplay", () => {
             if (audios[soundId]) {
                 audios[soundId].pause();
+                unregisterAudioEvents(audios[soundId]);
                 delete audios[soundId];
             }
         });

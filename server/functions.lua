@@ -16,6 +16,7 @@ end
 ---@param soundName string
 ---@param maxVolume number
 ---@param maxDistance number
+---@param looped boolean | number | {[1]: number, [2]: number} @Basic looping, loop with time between, loop with random time between
 ---@param playCount integer? @If not looping, you can decide how many times the audio will play
 ---@return string
 function PlaySoundOnEntity(entity, id, soundName, maxVolume, maxDistance, looped, playCount)
