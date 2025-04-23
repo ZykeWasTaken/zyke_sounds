@@ -7,7 +7,7 @@
 
 ---@class SoundDataWithEntity
 ---@field soundType string @entity
----@field soundName string
+---@field soundName string | string[] @Sound name or list of sound names
 ---@field maxVolume number
 ---@field maxDistance number
 ---@field entityNetId integer

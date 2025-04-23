@@ -13,7 +13,7 @@ end
 
 ---@param entity integer
 ---@param id string? @Only needed if you want to manually stop the sound
----@param soundName string
+---@param soundName string | string[] @Sound name or list of sound names, will choose randomly every time PlaySound(JS) is called
 ---@param maxVolume number
 ---@param maxDistance number
 ---@param looped boolean | number | {[1]: number, [2]: number} @Basic looping, loop with time between, loop with random time between

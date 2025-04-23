@@ -2,7 +2,7 @@ import { Send } from "./utils/nui";
 
 interface SoundData {
     soundId: string;
-    soundName: string;
+    soundName: string | string[]; // Chooses randomly every time PlaySound is called
     volume: number;
     looped?: boolean | number | [number, number];
     playCount?: number;
@@ -29,7 +29,14 @@ const unregisterAudioEvents = (audio: HTMLAudioElement) => {
 };
 
 Funcs.PlaySound = (soundData: SoundData) => {
-    const audio = new Audio(`sounds/${soundData.soundName}`);
+    const soundName =
+        typeof soundData.soundName === "string"
+            ? soundData.soundName
+            : soundData.soundName[
+                  Math.floor(Math.random() * soundData.soundName.length)
+              ];
+
+    const audio = new Audio(`sounds/${soundName}`);
 
     audio.volume = soundData.volume;
     audio.loop = soundData.looped === true ? true : false;
