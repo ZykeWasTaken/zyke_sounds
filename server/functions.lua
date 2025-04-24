@@ -76,12 +76,14 @@ end
 
 exports("StopSound", StopSound)
 
+local soundsPath = GetResourcePath(GetCurrentResourceName()) .. "/nui/sounds/"
+
 -- This is meant to be validated during script initialization for those that use our exports
 -- We don't want to perform file validation on every sound play to avoid delay
 ---@param fileName string
 ---@return boolean
 function DoesFileExist(fileName)
-    local filePath = GetResourcePath(GetCurrentResourceName()) .. "/nui/sounds/" .. fileName
+    local filePath = soundsPath .. fileName
 
     if (
         type(filePath) ~= "string"
@@ -108,4 +110,40 @@ function DoesFileExist(fileName)
 end
 
 exports("DoesFileExist", DoesFileExist)
-exports("DoesSoundExist", DoesFileExist)
+
+local loadedSounds = {}
+
+local isWindows = os.getenv("OS") == "Windows"
+local command
+if (isWindows) then
+    command = 'dir "' .. soundsPath .. '" /b'
+else
+    -- Untested
+    command = 'ls "' .. soundsPath .. '"'
+end
+
+---@param soundName string
+---@return boolean
+local function isValidSoundName(soundName)
+    return type(soundName) == "string" and soundName ~= "" and soundName:match("%.mp3$") or soundName:match("%.ogg$") or soundName:match("%.wav$")
+end
+
+local debug = Config.Settings.debug
+local p = io.popen(command)
+if (p) then
+    for file in p:lines() do
+        if (isValidSoundName(file)) then
+            loadedSounds[file] = true
+
+            if (debug) then
+                print("^4[DEBUG] ^2Registered " .. file .. " as loaded sound.^7")
+            end
+        end
+    end
+end
+
+-- Lightweight check to see if the sound exists in the loaded sounds
+---@param soundName string
+exports("DoesSoundExist", function(soundName)
+    return loadedSounds[soundName] ~= nil
+end)
