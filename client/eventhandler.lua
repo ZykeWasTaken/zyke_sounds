@@ -1,15 +1,20 @@
+---@param soundData SoundDataWithEntity | SoundDataWithLocation
 RegisterNetEvent("zyke_sounds:PlaySound", function(soundData)
     local plyPos = GetEntityCoords(PlayerPedId())
 
     Cache.activeSounds[soundData.soundId] = soundData
 
-    local volume = GetSoundVolume(plyPos, soundData)
-
-    soundData.volume = volume
+    ---@type NUISoundData
+    local nuiSoundData = {
+        soundId = soundData.soundId,
+        soundName = soundData.soundName,
+        volume = GetSoundVolume(plyPos, soundData),
+        looped = soundData.looped
+    }
 
     SendNUIMessage({
         event = "PlaySound",
-        data = soundData
+        data = nuiSoundData
     })
 
     UpdateSoundVolumeLoop()

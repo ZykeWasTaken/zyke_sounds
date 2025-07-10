@@ -75,3 +75,32 @@ function UpdateSoundVolume(soundId)
         }
     })
 end
+
+-- Plays a sound for the client triggering the function/export
+-- If you ever want to preview a basic sound inside of some menu to know what you are selecting, along with the volume, this will loop that sound until cancelled
+---@param soundName string
+---@param volume number @0.0-1.0
+function BasicSoundPreview(soundName, volume)
+    ---@type NUISoundData
+    local soundData = {
+        soundId = "BASIC_SOUND_PREVIEW",
+        soundName = soundName,
+        volume = volume,
+        looped = true
+    }
+
+    SendNUIMessage({
+        event = "PlaySound",
+        data = soundData
+    })
+end
+
+function StopBasicSoundPreview()
+    SendNUIMessage({
+        event = "StopSound",
+        data = {soundId = "BASIC_SOUND_PREVIEW"}
+    })
+end
+
+exports("BasicSoundPreview", BasicSoundPreview)
+exports("StopBasicSoundPreview", StopBasicSoundPreview)
