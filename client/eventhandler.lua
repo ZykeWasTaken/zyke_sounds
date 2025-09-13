@@ -36,3 +36,11 @@ end)
 RegisterNetEvent("zyke_sounds:StopSound", function(soundId, fade, forceFull)
     StopSound(soundId, fade, forceFull)
 end)
+
+AddEventHandler("onResourceStop", function(resource)
+    for soundId, soundData in pairs(Cache.activeSounds) do
+        if (soundData.invoker == resource) then
+            StopSound(soundId)
+        end
+    end
+end)
