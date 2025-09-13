@@ -104,3 +104,19 @@ end
 
 exports("BasicSoundPreview", BasicSoundPreview)
 exports("StopBasicSoundPreview", StopBasicSoundPreview)
+
+---@param soundId string
+---@param fade? number
+---@param forceFull? boolean
+function StopSound(soundId, fade, forceFull)
+        Cache.activeSounds[soundId] = nil
+
+    SendNUIMessage({
+        event = "StopSound",
+        data = {
+            soundId = soundId,
+            fade = fade,
+            forceFull = forceFull
+        }
+    })
+end

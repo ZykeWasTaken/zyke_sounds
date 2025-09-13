@@ -34,14 +34,5 @@ end)
 ---@param fade? number
 ---@param forceFull? boolean
 RegisterNetEvent("zyke_sounds:StopSound", function(soundId, fade, forceFull)
-    Cache.activeSounds[soundId] = nil
-
-    SendNUIMessage({
-        event = "StopSound",
-        data = {
-            soundId = soundId,
-            fade = fade,
-            forceFull = forceFull
-        }
-    })
+    StopSound(soundId, fade, forceFull)
 end)
