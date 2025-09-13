@@ -12,15 +12,19 @@
 ---@field maxDistance number
 ---@field entityNetId integer
 ---@field looped boolean | number | {[1]: number, [2]: number} @Basic looping, loop with time between, loop with random time between
+---@field playCount integer? @If not looping, you can decide how many times the audio will play
+---@field invoker string @Script that invoked the sound
 
 ---@class SoundDataWithLocation
 ---@field soundId string
 ---@field soundType string @location
----@field soundName string
+---@field soundName string | string[] @Sound name or list of sound names
 ---@field maxVolume number
 ---@field maxDistance number
 ---@field location vector3
----@field looped boolean
+---@field looped boolean | number | {[1]: number, [2]: number} @Basic looping, loop with time between, loop with random time between
+---@field playCount integer? @If not looping, you can decide how many times the audio will play
+---@field invoker string @Script that invoked the sound
 
 ---@class NUISoundData
 ---@field soundId string

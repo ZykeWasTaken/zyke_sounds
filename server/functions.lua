@@ -33,7 +33,8 @@ function PlaySoundOnEntity(entity, id, soundName, maxVolume, maxDistance, looped
         maxVolume = maxVolume or 0.3,
         maxDistance = maxDistance or 10.0,
         looped = looped or false,
-        playCount = playCount or 1
+        playCount = playCount or 1,
+        invoker = GetInvokingResource()
     }
 
     TriggerClientEvent("zyke_sounds:PlaySound", -1, soundData)
@@ -44,10 +45,15 @@ end
 exports("PlaySoundOnEntity", PlaySoundOnEntity)
 
 ---@param location vector3
----@param soundName string
+---@param id string? @Only needed if you want to manually stop the sound
+---@param soundName string | string[] @Sound name or list of sound names, will choose randomly every time PlaySound(JS) is called
+---@param maxVolume number
+---@param maxDistance number
+---@param looped boolean | number | {[1]: number, [2]: number} @Basic looping, loop with time between, loop with random time between
+---@param playCount integer? @If not looping, you can decide how many times the audio will play
 ---@return string
-function PlaySoundOnLocation(location, soundName)
-    local id = GetDefaultSoundId()
+function PlaySoundOnLocation(location, id, soundName, maxVolume, maxDistance, looped, playCount)
+    id = id or GetDefaultSoundId()
 
     ---@type SoundDataWithLocation
     local soundData = {
@@ -55,9 +61,11 @@ function PlaySoundOnLocation(location, soundName)
         soundName = soundName,
         location = location,
         soundType = "location",
-        maxVolume = 0.3,
-        maxDistance = 10.0,
-        looped = false
+        maxVolume = maxVolume or 0.3,
+        maxDistance = maxDistance or 10.0,
+        looped = looped or false,
+        playCount = playCount or 1,
+        invoker = GetInvokingResource()
     }
 
     TriggerClientEvent("zyke_sounds:PlaySound", -1, soundData)
