@@ -27,3 +27,15 @@
 
 --     PlaySoundOnEntity(ped, "flame.wav")
 -- end)
+
+-- Verify UI build
+local hasUISrc = LoadResourceFile(GetCurrentResourceName(), "nui_source/index.html") ~= nil
+local hasUIBuild = LoadResourceFile(GetCurrentResourceName(), "nui/index.html") ~= nil
+if (hasUISrc and not hasUIBuild) then
+    while (1) do
+        print("> ^1UI source files found, but no UI build found. Please build the UI or download the build version from the GitHub repository.^7")
+        print("> ^3https://docs.zykeresources.com/common-issues/downloading-source-files^7")
+
+        Wait(1000)
+    end
+end
