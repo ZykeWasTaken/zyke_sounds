@@ -119,6 +119,7 @@ end
 
 exports("DoesFileExist", DoesFileExist)
 
+---@type table<string, boolean> @file name, exists
 local loadedSounds = {}
 
 local isWindows = os.getenv("OS") == "Windows"
@@ -154,4 +155,9 @@ end
 ---@param soundName string
 exports("DoesSoundExist", function(soundName)
     return loadedSounds[soundName] ~= nil
+end)
+
+---@return table<string, boolean> @file name, exists
+exports("GetLoadedSounds", function()
+    return loadedSounds
 end)
